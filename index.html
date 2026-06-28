@@ -612,24 +612,104 @@
             transform: translateY(0);
         }
 
+        /* ── HAMBURGER ── */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 101;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: var(--ink);
+            transition: transform 0.25s, opacity 0.25s;
+            transform-origin: center;
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(6.5px) rotate(45deg);
+        }
+
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-6.5px) rotate(-45deg);
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 800px) {
             nav {
                 padding: 1.2rem 1.5rem;
+                position: fixed;
+            }
+
+            .nav-toggle {
+                display: flex;
             }
 
             .nav-links {
-                gap: 1.5rem;
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: rgba(255, 255, 255, 0.97);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--faint);
+                padding: 0.5rem 0;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.85rem 1.5rem;
+                font-size: 0.82rem;
             }
 
             #hero {
                 grid-template-columns: 1fr;
-                padding: 7rem 1.5rem 3rem;
+                padding: 6rem 1.5rem 3rem;
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-bio {
+                max-width: 100%;
+            }
+
+            .hero-links {
+                justify-content: center;
+            }
+
+            .hero-photo {
+                order: -1;
             }
 
             .hero-photo img {
-                max-width: 100%;
-                height: 340px;
+                max-width: 220px;
+                height: 270px;
             }
 
             section {
@@ -638,7 +718,16 @@
 
             .teach-item {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
+                gap: 0.4rem;
+            }
+
+            .industry-grid {
+                flex-direction: column !important;
+            }
+
+            .contact-item a,
+            .contact-item span {
+                word-break: break-all;
             }
 
             #contact {
@@ -654,6 +743,25 @@
                 text-align: center;
             }
         }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: clamp(2.8rem, 12vw, 3.5rem);
+            }
+
+            .hero-photo img {
+                max-width: 180px;
+                height: 220px;
+            }
+
+            .industry-card {
+                padding: 1.75rem;
+            }
+
+            .contact-right {
+                padding: 1.75rem;
+            }
+        }
     </style>
 </head>
 
@@ -662,6 +770,11 @@
     <!-- NAV -->
     <nav>
         <a href="#hero" class="nav-logo">Vrinda Desai</a>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <ul class="nav-links">
             <li><a href="#teaching">Teaching</a></li>
             <li><a href="#industry">Industry</a></li>
@@ -792,7 +905,7 @@
             <h2>Industry <em>Experience</em></h2>
         </div>
 
-        <div class="industry-grid reveal" style="display:flex;flex-direction:row;gap:1.5rem;background:none;">
+        <div class="industry-grid reveal">
             <div class="industry-card">
                 <div class="industry-year">Aug 2026 →</div>
                 <div class="industry-title">Associate Software Engineer</div>
@@ -907,6 +1020,20 @@
             });
         }, { threshold: 0.1 });
         reveals.forEach(el => observer.observe(el));
+
+        // Hamburger menu
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
     </script>
 </body>
 
