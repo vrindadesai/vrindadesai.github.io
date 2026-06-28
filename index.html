@@ -452,7 +452,7 @@
 
         .contact-item {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -464,6 +464,7 @@
             text-transform: uppercase;
             color: var(--warm);
             width: 80px;
+            flex-shrink: 0;
         }
 
         .contact-item a,
@@ -473,6 +474,9 @@
             text-decoration: none;
             border-bottom: 1px solid var(--faint);
             transition: border-color 0.2s;
+            min-width: 0;
+            overflow-wrap: break-word;
+            word-break: break-all;
         }
 
         .contact-item a:hover {
@@ -723,11 +727,6 @@
 
             .industry-grid {
                 flex-direction: column !important;
-            }
-
-            .contact-item a,
-            .contact-item span {
-                word-break: break-all;
             }
 
             #contact {
